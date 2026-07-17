@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Supawat's Blog</title>
+        <title>Blog Name</title>
         <meta name="description" content="{{tagline}}" />
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Supawat's Blog" />
+        <meta property="og:title" content="Blog Name" />
         <meta property="og:description" content="{{tagline}}" />
         <meta property="og:url" content="https://ssupawat.github.io" />
 
@@ -23,7 +23,7 @@
             <nav>
                 <a href="#/" class="logo">
                     <span class="logo-slash">/</span>
-                    <span class="logo-text">supawat</span>
+                    <span class="logo-text">Blog</span>
                 </a>
                 <div class="menu">
                     <a href="#/about" class="menu-icon" aria-label="About me">
@@ -292,11 +292,11 @@
                 // Update page title
                 const post = posts.find((p) => hash === "/" + p.slug);
                 if (post) {
-                    document.title = `${post.title} - Supawat's Blog`;
+                    document.title = `${post.title} - Blog Name`;
                 } else if (hash === "/") {
-                    document.title = `Supawat's Blog`;
+                    document.title = `Blog Name`;
                 } else if (hash === "/about") {
-                    document.title = `About Supawat`;
+                    document.title = `About Me`;
                 }
             }
 
