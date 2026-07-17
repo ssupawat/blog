@@ -1,8 +1,8 @@
 export default {
   tagline:
-    "Nothing to see here yet 😅, I'm just setting up the place, but I am planning to document my thoughts or future projects in software and electrical engineering.",
+    "Nothing to see here yet 😅.",
   social: {
-    github: "https://github.com/ssupawat",
-    facebook: "https://facebook.com/mynamesart",
+    github: "https://github.com/<your-github>",
+    facebook: "https://facebook.com/<your-facebook>",
   },
 };
