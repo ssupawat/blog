@@ -204,7 +204,7 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
 
 
 function generateOgImage() {
-  const svg = mondrianSVG(1200, 630, 77, 40, "#F4F5F3");
+  const svg = mondrianSVG(1200, 630, 77, 8, "#F4F5F3");
 
   const svgPath = path.join(DIST_DIR, "_og.svg");
   const pngPath = path.join(__dirname, "assets", "og-image.png");
@@ -267,7 +267,7 @@ function mondrianSVG(W, H, seed, pad, bg) {
 }
 
 function generateCover(seed) {
-  return mondrianSVG(600, 315, seed, 20, "#F4F5F3");
+  return mondrianSVG(600, 315, seed, 8, "#F4F5F3");
 }
 
 function generatePostPages(posts) {
