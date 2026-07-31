@@ -130,13 +130,14 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    background: none;
+    background: rgba(128, 128, 128, 0.1);
     border: none;
     color: var(--muted);
     cursor: pointer;
     font-family: "Courier New", "Courier", monospace;
-    font-size: 0.85rem;
-    padding: 0;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
     margin-bottom: 1.5rem;
 }
 
