@@ -123,7 +123,29 @@ a:hover {
 }
 
 .post-header {
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.share-post {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 0.85rem;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.share-post:hover {
+    color: var(--accent);
+}
+
+.share-post .material-symbols-outlined {
+    font-size: 18px;
 }
 
 .post-header h1 {

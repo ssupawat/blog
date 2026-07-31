@@ -265,10 +265,28 @@
                                 <span class="description">${post.description}</span>
                             </div>
                         </header>
+                        <button class="share-post" id="share-btn" title="Copy share link"><span class="material-symbols-outlined">link</span></button>
                         <div class="content">${post.content}</div>
                         ${navHtml}
                     </article>
                 `;
+
+                const shareBtn = document.getElementById("share-btn");
+                if (shareBtn) {
+                    shareBtn.addEventListener("click", () => {
+                        const url = config.url + "/posts/" + post.slug + "/";
+                        if (navigator.share) {
+                            navigator.share({ title: post.title, url });
+                        } else {
+                            navigator.clipboard.writeText(url).then(() => {
+                                shareBtn.textContent = "Copied!";
+                                setTimeout(() => {
+                                    shareBtn.innerHTML = '<span class="material-symbols-outlined">link</span>';
+                                }, 1500);
+                            });
+                        }
+                    });
+                }
             }
 
             function router() {
