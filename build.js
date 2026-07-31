@@ -205,7 +205,7 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
 
 function generateOgImage() {
   const W = 1200, H = 630;
-  const accent = "#06c";
+  const accent = "#2F6F6A";
 
   function hash(x, y) {
     let h = (x * 374761393 + y * 668265263 + 1274126177) | 0;
@@ -214,7 +214,7 @@ function generateOgImage() {
   }
 
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-  svg += `<rect width="${W}" height="${H}" fill="#f9f9f9"/>`;
+  svg += `<rect width="${W}" height="${H}" fill="#F4F5F3"/>`;
 
   const cols = 24, rows = 14;
   const cw = W / cols, ch = H / rows;
@@ -289,11 +289,11 @@ function generatePostPages(posts) {
 <meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
 <meta name="twitter:card" content="summary">
 <style>
-body{font-family:"Courier New","Courier",monospace;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#f9f9f9;color:#2d2d2d;line-height:1.7}
+body{font-family:"Courier New","Courier",monospace;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#F4F5F3;color:#151A21;line-height:1.7}
 h1{font-size:1.3rem;font-weight:600}
 .meta{color:#666;font-size:.9rem;margin-bottom:2rem}
-a{color:#06c}
-@media(prefers-color-scheme:dark){body{background:#1a1a1a;color:#e0e0e0}.meta{color:#999}a{color:#66b2ff}}
+a{color:#2F6F6A}
+@media(prefers-color-scheme:dark){body{background:#151A21;color:#F4F5F3}.meta{color:#6B7280}a{color:#2F6F6A}}
 </style>
 </head>
 <body>

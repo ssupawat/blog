@@ -98,18 +98,18 @@
 
             function setTheme(theme) {
                 if (theme === "dark") {
-                    html.style.setProperty("--bg", "#1a1a1a");
-                    html.style.setProperty("--text", "#e0e0e0");
-                    html.style.setProperty("--accent", "#66b2ff");
-                    html.style.setProperty("--muted", "#999999");
+                    html.style.setProperty("--bg", "#151A21");
+                    html.style.setProperty("--text", "#F4F5F3");
+                    html.style.setProperty("--accent", "#2F6F6A");
+                    html.style.setProperty("--muted", "#6B7280");
                     localStorage.setItem("theme", "dark");
                     const ti = document.getElementById("theme-icon");
                     if (ti) ti.textContent = "dark_mode";
                 } else {
-                    html.style.setProperty("--bg", "#f9f9f9");
-                    html.style.setProperty("--text", "#2d2d2d");
-                    html.style.setProperty("--accent", "#0066cc");
-                    html.style.setProperty("--muted", "#666666");
+                    html.style.setProperty("--bg", "#F4F5F3");
+                    html.style.setProperty("--text", "#151A21");
+                    html.style.setProperty("--accent", "#2F6F6A");
+                    html.style.setProperty("--muted", "#6B7280");
                     localStorage.setItem("theme", "light");
                     const ti = document.getElementById("theme-icon");
                     if (ti) ti.textContent = "light_mode";

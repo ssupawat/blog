@@ -1,17 +1,17 @@
 :root {
-    --bg: #f9f9f9;
-    --text: #2d2d2d;
-    --accent: #0066cc;
-    --muted: #666666;
+    --bg: #F4F5F3;
+    --text: #151A21;
+    --accent: #2F6F6A;
+    --muted: #6B7280;
     --container-width: 700px;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #1a1a1a;
-        --text: #e0e0e0;
-        --accent: #66b2ff;
-        --muted: #999999;
+        --bg: #151A21;
+        --text: #F4F5F3;
+        --accent: #2F6F6A;
+        --muted: #6B7280;
     }
 }
 
