@@ -93,17 +93,11 @@ a:hover {
 .logo {
     font-family: "Courier New", "Courier", monospace;
     font-size: 1.6rem;
+    font-weight: 600;
     text-decoration: none !important;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    line-height: 1;
-    color: var(--accent);
 }
 
-.logo .logo-text {
-    color: var(--text);
-}
+
 
 .logo:hover {
     text-decoration: none !important;
