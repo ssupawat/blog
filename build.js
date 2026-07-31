@@ -224,10 +224,19 @@ function generatePostPages(posts) {
 <meta property="og:description" content="${escapeXml(p.description)}">
 <meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
 <meta name="twitter:card" content="summary">
-<meta http-equiv="refresh" content="0;url=${siteUrl}/#/${p.slug}">
+<style>
+body{font-family:"Courier New","Courier",monospace;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#f9f9f9;color:#2d2d2d;line-height:1.7}
+h1{font-size:1.3rem;font-weight:600}
+.meta{color:#666;font-size:.9rem;margin-bottom:2rem}
+a{color:#06c}
+@media(prefers-color-scheme:dark){body{background:#1a1a1a;color:#e0e0e0}.meta{color:#999}a{color:#66b2ff}}
+</style>
 </head>
 <body>
-<p><a href="${siteUrl}/#/${p.slug}">View post</a></p>
+<h1>${escapeXml(p.title)}</h1>
+<p class="meta">${escapeXml(p.date)}</p>
+<p>${escapeXml(p.description)}</p>
+<p><a href="${siteUrl}/#/${p.slug}">Read more →</a></p>
 </body>
 </html>`;
 
