@@ -26,7 +26,7 @@ body {
     font-family: "Georgia", "Times New Roman", serif;
     line-height: 1.8;
     margin: 0;
-    padding: 0;
+    padding: 0 0 5rem 0;
 }
 
 .container {
@@ -315,10 +315,20 @@ a:hover {
     margin-left: 1rem;
 }
 
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 0 1.5rem 0;
+    pointer-events: none;
+}
+
 .social-links {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
+    pointer-events: auto;
 }
 
 .social-icon {
