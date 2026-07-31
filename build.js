@@ -289,7 +289,7 @@ function generatePostPages(posts) {
 <meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
 <meta name="twitter:card" content="summary">
 <style>
-body{font-family:"Courier New","Courier",monospace;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#F4F5F3;color:#151A21;line-height:1.7}
+body{font-family:"Inter",system-ui,-apple-system,sans-serif;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#F4F5F3;color:#151A21;line-height:1.7}
 h1{font-size:1.3rem;font-weight:600}
 .meta{color:#666;font-size:.9rem;margin-bottom:2rem}
 a{color:#2F6F6A}
