@@ -48,7 +48,7 @@ function slugify(filename) {
   return filename
     .replace(/\.md$/, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/[^a-z0-9\u0E00-\u0E7F]+/g, "-")
     .replace(/^-|-$/g, "");
 }
 
@@ -204,45 +204,7 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
 
 
 function generateOgImage() {
-  const W = 1200, H = 630;
-  const accent = "#2F6F6A";
-
-  function hash(x, y) {
-    let h = (x * 374761393 + y * 668265263 + 1274126177) | 0;
-    h = ((h ^ (h >> 13)) * 1274126177) | 0;
-    return (h ^ (h >> 16)) / 2147483648;
-  }
-
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-  svg += `<rect width="${W}" height="${H}" fill="#F4F5F3"/>`;
-
-  const cols = 24, rows = 14;
-  const cw = W / cols, ch = H / rows;
-
-  // Circles
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      const cx = (x + 0.5) * cw;
-      const cy = (y + 0.5) * ch;
-      const r = hash(x * 7, y * 13) * cw * 0.55 + 5;
-      const op = 0.12 + hash(x * 31, y * 17) * 0.35;
-      svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${accent}" opacity="${op.toFixed(2)}"/>`;
-    }
-  }
-
-  // Connecting lines
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      if (x < cols - 1 && hash(x, y) > 0.48) {
-        svg += `<line x1="${(x + 0.5) * cw}" y1="${(y + 0.5) * ch}" x2="${(x + 1.5) * cw}" y2="${(y + 0.5) * ch}" stroke="${accent}" opacity="${(0.08 + hash(x * 19, y * 23) * 0.18).toFixed(2)}" stroke-width="1"/>`;
-      }
-      if (y < rows - 1 && hash(x * 3, y * 5) > 0.48) {
-        svg += `<line x1="${(x + 0.5) * cw}" y1="${(y + 0.5) * ch}" x2="${(x + 0.5) * cw}" y2="${(y + 1.5) * ch}" stroke="${accent}" opacity="${(0.08 + hash(x * 11, y * 7) * 0.18).toFixed(2)}" stroke-width="1"/>`;
-      }
-    }
-  }
-
-  svg += `</svg>`;
+  const svg = mondrianSVG(1200, 630, 77, 40, "#F4F5F3");
 
   const svgPath = path.join(DIST_DIR, "_og.svg");
   const pngPath = path.join(__dirname, "assets", "og-image.png");
@@ -252,7 +214,7 @@ function generateOgImage() {
     const chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
     fs.mkdirSync(path.dirname(pngPath), { recursive: true });
     execSync(
-      `"${chrome}" --headless=new --disable-gpu --force-device-scale-factor=1 --window-size=${W},${H} --screenshot="${pngPath}" "file://${svgPath}"`,
+      `"${chrome}" --headless=new --disable-gpu --force-device-scale-factor=1 --window-size=1200,630 --screenshot="${pngPath}" "file://${svgPath}"`,
       { stdio: "pipe", timeout: 10000 },
     );
     console.log("  Generated OG image");
@@ -261,6 +223,51 @@ function generateOgImage() {
   }
 
   try { fs.unlinkSync(svgPath); } catch {}
+}
+
+function mondrianSVG(W, H, seed, pad, bg) {
+  function hash(x, y) {
+    let h = (x * 374761393 + y * 668265263 + seed) | 0;
+    h = ((h ^ (h >> 13)) * 1274126177) | 0;
+    return (h ^ (h >> 16)) / 2147483648;
+  }
+
+  const ink = "#2F6F6A", slate = "#6B7280";
+  const sw = pad < 10 ? 1.5 : 2;
+  const lw = pad < 10 ? 0.5 : 1;
+  const minSz = pad < 10 ? 4 : 20;
+
+  let inner = "";
+  if (bg) inner += `<rect width="${W}" height="${H}" fill="${bg}"/>`;
+  inner += `<rect x="${pad}" y="${pad}" width="${W - pad * 2}" height="${H - pad * 2}" fill="none" stroke="${ink}" stroke-width="${sw}" opacity="0.85"/>`;
+
+  function split(x, y, w, h, depth, id) {
+    if (depth > 3 || w < minSz * 2 || h < minSz * 2) {
+      if (hash(id, 0) > 0.4) {
+        const op = 0.2 + hash(id, 1) * 0.55;
+        inner += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${ink}" opacity="${op.toFixed(2)}"/>`;
+      }
+      return;
+    }
+    const ratio = 0.3 + hash(id, 2) * 0.4;
+    if (hash(id, 3) > 0.5) {
+      const sx = x + w * ratio;
+      inner += `<line x1="${sx}" y1="${y}" x2="${sx}" y2="${y + h}" stroke="${slate}" stroke-width="${lw}" opacity="0.5"/>`;
+      split(x, y, sx - x, h, depth + 1, id * 2);
+      split(sx, y, x + w - sx, h, depth + 1, id * 2 + 1);
+    } else {
+      const sy = y + h * ratio;
+      inner += `<line x1="${x}" y1="${sy}" x2="${x + w}" y2="${sy}" stroke="${slate}" stroke-width="${lw}" opacity="0.5"/>`;
+      split(x, y, w, sy - y, depth + 1, id * 2);
+      split(x, sy, w, y + h - sy, depth + 1, id * 2 + 1);
+    }
+  }
+  split(pad, pad, W - pad * 2, H - pad * 2, 0, 1);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${inner}</svg>`;
+}
+
+function generateCover(seed) {
+  return mondrianSVG(600, 315, seed, 20, "#F4F5F3");
 }
 
 function generatePostPages(posts) {
@@ -275,6 +282,14 @@ function generatePostPages(posts) {
     const slugDir = path.join(postsDir, p.slug);
     fs.mkdirSync(slugDir, { recursive: true });
 
+    // Seed from slug
+    let seed = 0;
+    for (let i = 0; i < p.slug.length; i++) seed = ((seed << 5) - seed + p.slug.charCodeAt(i)) | 0;
+    seed = Math.abs(seed);
+
+    const coverSvg = generateCover(seed);
+    fs.writeFileSync(path.join(slugDir, "cover.svg"), coverSvg);
+
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -285,20 +300,23 @@ function generatePostPages(posts) {
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeXml(p.title)}">
 <meta property="og:description" content="${escapeXml(p.description)}">
-<meta property="og:image" content="${siteUrl}/assets/og-image.png">
+<meta property="og:image" content="${siteUrl}/posts/${p.slug}/cover.svg">
 <meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 body{font-family:"Inter",system-ui,-apple-system,sans-serif;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#F4F5F3;color:#151A21;line-height:1.7}
 h1{font-size:1.3rem;font-weight:600}
-.meta{color:#666;font-size:.9rem;margin-bottom:2rem}
+.meta{color:#6B7280;font-size:.9rem;margin-bottom:1.5rem}
 a{color:#2F6F6A}
+.cover{margin-bottom:2rem}
+.cover svg{max-width:100%;height:auto}
 @media(prefers-color-scheme:dark){body{background:#151A21;color:#F4F5F3}.meta{color:#6B7280}a{color:#2F6F6A}}
 </style>
 </head>
 <body>
 <h1>${escapeXml(p.title)}</h1>
 <p class="meta">${escapeXml(p.date)}</p>
+<div class="cover">${coverSvg}</div>
 <p>${escapeXml(p.description)}</p>
 <p><a href="${siteUrl}/#/${p.slug}">Read more →</a></p>
 </body>
