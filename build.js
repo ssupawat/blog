@@ -204,7 +204,7 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
 
 
 function generateOgImage() {
-  const svg = mondrianSVG(1200, 630, 77, 8, "");
+  const svg = mondrianSVG(1200, 630, 77, 0, "", false);
 
   const svgPath = path.join(DIST_DIR, "_og.svg");
   const pngPath = path.join(__dirname, "assets", "og-image.png");
@@ -225,39 +225,46 @@ function generateOgImage() {
   try { fs.unlinkSync(svgPath); } catch {}
 }
 
-function mondrianSVG(W, H, seed, pad, bg) {
+function mondrianSVG(W, H, seed, pad, bg, invert) {
   function hash(x, y) {
     let h = (x * 374761393 + y * 668265263 + seed) | 0;
     h = ((h ^ (h >> 13)) * 1274126177) | 0;
     return (h ^ (h >> 16)) / 2147483648;
   }
 
-  const ink = "#2F6F6A", slate = "#6B7280";
+  const red = "#E2231A", blue = "#1D4F9C", yellow = "#F5D522";
+  const fills = [red, red, blue, blue, yellow, yellow, red, blue];
+  const line = "#111";
   const sw = pad < 10 ? 1.5 : 2;
   const lw = pad < 10 ? 0.5 : 1;
   const minSz = pad < 10 ? 4 : 20;
 
   let inner = "";
-  if (bg) inner += `<rect width="${W}" height="${H}" fill="${bg}"/>`;
-  inner += `<rect x="${pad}" y="${pad}" width="${W - pad * 2}" height="${H - pad * 2}" fill="none" stroke="${ink}" stroke-width="${sw}" opacity="0.85"/>`;
+  if (invert) {
+    inner += `<rect width="${W}" height="${H}" fill="${red}"/>`;
+  } else {
+    inner += `<rect width="${W}" height="${H}" fill="#FFF"/>`;
+    inner += `<rect x="${pad}" y="${pad}" width="${W - pad * 2}" height="${H - pad * 2}" fill="none" stroke="${line}" stroke-width="${sw}" opacity="0.95"/>`;
+  }
 
   function split(x, y, w, h, depth, id) {
     if (depth > 3 || w < minSz * 2 || h < minSz * 2) {
-      if (hash(id, 0) > 0.4) {
-        const op = 0.2 + hash(id, 1) * 0.55;
-        inner += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${ink}" opacity="${op.toFixed(2)}"/>`;
+      if (hash(id, 0) > 0.15) {
+        const fill = invert ? bg || "#F4F5F3" : fills[Math.floor(hash(id, 3) * fills.length)];
+        const op = 0.3 + hash(id, 1) * 0.55;
+        inner += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" opacity="${op.toFixed(2)}"/>`;
       }
       return;
     }
     const ratio = 0.3 + hash(id, 2) * 0.4;
     if (hash(id, 3) > 0.5) {
       const sx = x + w * ratio;
-      inner += `<line x1="${sx}" y1="${y}" x2="${sx}" y2="${y + h}" stroke="${slate}" stroke-width="${lw}" opacity="0.5"/>`;
+      inner += `<line x1="${sx}" y1="${y}" x2="${sx}" y2="${y + h}" stroke="${invert ? (bg || "#F4F5F3") : line}" stroke-width="${lw}" opacity="${invert ? 0.3 : 0.6}"/>`;
       split(x, y, sx - x, h, depth + 1, id * 2);
       split(sx, y, x + w - sx, h, depth + 1, id * 2 + 1);
     } else {
       const sy = y + h * ratio;
-      inner += `<line x1="${x}" y1="${sy}" x2="${x + w}" y2="${sy}" stroke="${slate}" stroke-width="${lw}" opacity="0.5"/>`;
+      inner += `<line x1="${x}" y1="${sy}" x2="${x + w}" y2="${sy}" stroke="${invert ? (bg || "#F4F5F3") : line}" stroke-width="${lw}" opacity="${invert ? 0.3 : 0.6}"/>`;
       split(x, y, w, sy - y, depth + 1, id * 2);
       split(x, sy, w, y + h - sy, depth + 1, id * 2 + 1);
     }
@@ -267,7 +274,7 @@ function mondrianSVG(W, H, seed, pad, bg) {
 }
 
 function generateCover(seed) {
-  return mondrianSVG(600, 315, seed, 8, "#F4F5F3");
+  return mondrianSVG(600, 315, seed, 6, "", false);
 }
 
 function generatePostPages(posts) {
