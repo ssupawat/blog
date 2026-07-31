@@ -91,10 +91,11 @@ a:hover {
 }
 
 .logo {
-    font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
     font-size: 1.6rem;
     font-weight: 600;
     text-decoration: none !important;
+    color: var(--text);
 }
 
 
