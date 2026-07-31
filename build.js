@@ -129,7 +129,8 @@ function renderSinglePage(posts) {
     .replace("{{posts}}", postsJson)
     .replace("{{about}}", aboutJson)
     .replace("{{config}}", configJson)
-    .replace(/\{\{tagline\}\}/g, config.tagline);
+    .replace(/\{\{tagline\}\}/g, config.tagline)
+    .replace("{{logo}}", generateLogo());
 }
 
 function escapeXml(str) {
@@ -199,6 +200,43 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
   fs.writeFileSync(path.join(DIST_DIR, "sitemap.xml"), sitemap);
 
   console.log("  Generated feed.json, atom.xml, sitemap.xml");
+}
+
+function generateLogo() {
+  const W = 32, H = 32;
+
+  function hash(x, y) {
+    let h = (x * 374761393 + y * 668265263 + 1274126177) | 0;
+    h = ((h ^ (h >> 13)) * 1274126177) | 0;
+    return (h ^ (h >> 16)) / 2147483648;
+  }
+
+  const cols = 6, rows = 6;
+  const cw = W / cols, ch = H / rows;
+  let inner = `<rect width="${W}" height="${H}" fill="none"/>`;
+
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const cx = (x + 0.5) * cw;
+      const cy = (y + 0.5) * ch;
+      const r = hash(x * 7, y * 13) * cw * 0.3 + 2;
+      const op = 0.3 + hash(x * 31, y * 17) * 0.5;
+      inner += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="currentColor" opacity="${op.toFixed(2)}"/>`;
+    }
+  }
+
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (x < cols - 1 && hash(x, y) > 0.45) {
+        inner += `<line x1="${(x + 0.5) * cw}" y1="${(y + 0.5) * ch}" x2="${(x + 1.5) * cw}" y2="${(y + 0.5) * ch}" stroke="currentColor" opacity="${(0.3 + hash(x * 19, y * 23) * 0.4).toFixed(2)}" stroke-width="0.8"/>`;
+      }
+      if (y < rows - 1 && hash(x * 3, y * 5) > 0.45) {
+        inner += `<line x1="${(x + 0.5) * cw}" y1="${(y + 0.5) * ch}" x2="${(x + 0.5) * cw}" y2="${(y + 1.5) * ch}" stroke="currentColor" opacity="${(0.3 + hash(x * 11, y * 7) * 0.4).toFixed(2)}" stroke-width="0.8"/>`;
+      }
+    }
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${inner}</svg>`;
 }
 
 function generateOgImage() {
