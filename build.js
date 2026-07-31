@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { marked } from "marked";
@@ -200,6 +201,66 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
   console.log("  Generated feed.json, atom.xml, sitemap.xml");
 }
 
+function generateOgImage() {
+  const W = 1200, H = 630;
+  const accent = "#06c";
+
+  function hash(x, y) {
+    let h = (x * 374761393 + y * 668265263 + 1274126177) | 0;
+    h = ((h ^ (h >> 13)) * 1274126177) | 0;
+    return (h ^ (h >> 16)) / 2147483648;
+  }
+
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  svg += `<rect width="${W}" height="${H}" fill="#f9f9f9"/>`;
+
+  const cols = 24, rows = 14;
+  const cw = W / cols, ch = H / rows;
+
+  // Circles
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const cx = (x + 0.5) * cw;
+      const cy = (y + 0.5) * ch;
+      const r = hash(x * 7, y * 13) * cw * 0.55 + 5;
+      const op = 0.12 + hash(x * 31, y * 17) * 0.35;
+      svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${accent}" opacity="${op.toFixed(2)}"/>`;
+    }
+  }
+
+  // Connecting lines
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (x < cols - 1 && hash(x, y) > 0.48) {
+        svg += `<line x1="${(x + 0.5) * cw}" y1="${(y + 0.5) * ch}" x2="${(x + 1.5) * cw}" y2="${(y + 0.5) * ch}" stroke="${accent}" opacity="${(0.08 + hash(x * 19, y * 23) * 0.18).toFixed(2)}" stroke-width="1"/>`;
+      }
+      if (y < rows - 1 && hash(x * 3, y * 5) > 0.48) {
+        svg += `<line x1="${(x + 0.5) * cw}" y1="${(y + 0.5) * ch}" x2="${(x + 0.5) * cw}" y2="${(y + 1.5) * ch}" stroke="${accent}" opacity="${(0.08 + hash(x * 11, y * 7) * 0.18).toFixed(2)}" stroke-width="1"/>`;
+      }
+    }
+  }
+
+  svg += `</svg>`;
+
+  const svgPath = path.join(DIST_DIR, "_og.svg");
+  const pngPath = path.join(DIST_DIR, "assets", "og-image.png");
+  fs.writeFileSync(svgPath, svg);
+
+  try {
+    const chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    fs.mkdirSync(path.dirname(pngPath), { recursive: true });
+    execSync(
+      `"${chrome}" --headless=new --disable-gpu --force-device-scale-factor=1 --window-size=${W},${H} --screenshot="${pngPath}" "file://${svgPath}"`,
+      { stdio: "pipe", timeout: 10000 },
+    );
+    console.log("  Generated OG image");
+  } catch {
+    console.log("  OG image: Chrome not available, using existing PNG");
+  }
+
+  try { fs.unlinkSync(svgPath); } catch {}
+}
+
 function generatePostPages(posts) {
   const siteUrl = (config.url || "").replace(/\/+$/, "");
   const title = config.title || "ssupawat";
@@ -302,6 +363,8 @@ function build() {
   generatePostPages(posts);
 
   copyAssets();
+
+  generateOgImage();
   console.log("  Copied assets");
 
   console.log("Build complete!");
