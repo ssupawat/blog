@@ -302,7 +302,7 @@ a:hover {
     font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
     font-size: 1.2rem;
     letter-spacing: 0.05em;
-    color: var(--muted);
+    color: var(--text);
     font-weight: 600;
     margin: 0 0 0.75rem 0;
 }
