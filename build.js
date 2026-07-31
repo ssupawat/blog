@@ -204,7 +204,7 @@ ${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
 
 
 function generateOgImage() {
-  const svg = mondrianSVG(1200, 630, 77, 8, "#F4F5F3");
+  const svg = mondrianSVG(1200, 630, 77, 8, "");
 
   const svgPath = path.join(DIST_DIR, "_og.svg");
   const pngPath = path.join(__dirname, "assets", "og-image.png");
