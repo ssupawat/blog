@@ -245,7 +245,7 @@ function generateOgImage() {
   svg += `</svg>`;
 
   const svgPath = path.join(DIST_DIR, "_og.svg");
-  const pngPath = path.join(DIST_DIR, "assets", "og-image.png");
+  const pngPath = path.join(__dirname, "assets", "og-image.png");
   fs.writeFileSync(svgPath, svg);
 
   try {
@@ -364,9 +364,9 @@ function build() {
   generateFeeds(posts);
   generatePostPages(posts);
 
-  copyAssets();
-
   generateOgImage();
+
+  copyAssets();
   console.log("  Copied assets");
 
   console.log("Build complete!");
