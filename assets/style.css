@@ -20,13 +20,19 @@
     border: none !important;
 }
 
+.material-symbols-outlined {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: "Georgia", "Times New Roman", serif;
-    line-height: 1.8;
+    font-family: "Courier New", "Courier", monospace;
+    line-height: 1.7;
+    font-size: 0.95rem;
     margin: 0;
-    padding: 0 0 5rem 0;
+    padding: 0;
 }
 
 .container {
@@ -66,8 +72,8 @@ nav {
     text-decoration: none;
 }
 
-.menu-icon svg {
-    display: block;
+.menu-icon .material-symbols-outlined {
+    font-size: 20px;
 }
 
 a {
@@ -79,30 +85,28 @@ a:hover {
     text-decoration: underline;
 }
 
+::selection {
+    background-color: var(--accent);
+    color: #fff;
+}
+
 .logo {
-    font-family:
-        "Inter",
-        system-ui,
-        -apple-system,
-        sans-serif;
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 1.6rem;
     text-decoration: none !important;
     display: flex;
-    align-items: baseline;
-    gap: 0.1rem;
-}
-
-.logo-slash {
+    align-items: center;
+    gap: 0.4rem;
+    line-height: 1;
     color: var(--accent);
-    font-size: 2.2rem;
-    font-weight: 300;
-    transition: color 0.2s ease;
 }
 
-.logo-text {
+.logo .logo-text {
     color: var(--text);
-    transition: color 0.2s ease;
+}
+
+.logo-icon {
+    font-size: 24px;
 }
 
 .logo:hover {
@@ -112,8 +116,10 @@ a:hover {
 
 .tagline {
     color: var(--muted);
-    font-size: 1.2rem;
-    margin-bottom: 3rem;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 1.05rem;
+    text-transform: lowercase;
+    margin: 0 0 2.5rem 0;
 }
 
 .post-header {
@@ -136,7 +142,8 @@ a:hover {
 .date {
     color: var(--muted);
     font-size: 0.9rem;
-    font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+    font-family: "Courier New", "Courier", monospace;
+    font-variant-numeric: tabular-nums;
 }
 
 .date::before {
@@ -160,12 +167,8 @@ a:hover {
 }
 
 .content h2 {
-    font-family:
-        "Inter",
-        system-ui,
-        -apple-system,
-        sans-serif;
-    font-size: 1.8rem;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 1.3rem;
     font-weight: 600;
     margin: 3rem 0 1rem 0;
 }
@@ -177,12 +180,8 @@ a:hover {
 }
 
 .content h3 {
-    font-family:
-        "Inter",
-        system-ui,
-        -apple-system,
-        sans-serif;
-    font-size: 1.4rem;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 1.1rem;
     font-weight: 600;
     margin: 2rem 0 1rem 0;
 }
@@ -210,14 +209,14 @@ a:hover {
 
 .content code {
     background: rgba(128, 128, 128, 0.1);
-    font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+    font-family: "Courier New", "Courier", monospace;
     font-size: 0.9em;
     padding: 0.2em 0.4em;
 }
 
 .content pre {
     background: rgba(128, 128, 128, 0.1);
-    font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
+    font-family: "Courier New", "Courier", monospace;
     font-size: 0.9rem;
     overflow-x: auto;
     padding: 1rem;
@@ -285,50 +284,58 @@ a:hover {
     margin: 0;
 }
 
+.home-wrapper h2 {
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+}
+
 .post-list-item {
-    margin: 1.5rem 0;
+    margin: 1.4rem 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
+    line-height: 1.5;
 }
 
 .post-list-item > div:first-child {
     flex: 1;
+    min-width: 0;
 }
 
-.post-list-item a {
+.post-list-item .post-title {
     color: var(--text);
-    font-size: 1.3rem;
-}
-
-.post-description {
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
+    font-size: 1.2rem;
 }
 
 .post-list-item .post-meta {
     color: var(--muted);
-    font-family: "SF Mono", "Monaco", "Inconsolata", monospace;
-    font-size: 0.9rem;
-    margin-left: 1rem;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.post-description {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-top: 0.35rem;
 }
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0 0 1.5rem 0;
-    pointer-events: none;
+    padding: 2rem 0 1.5rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(128, 128, 128, 0.2) !important;
 }
 
 .social-links {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
-    pointer-events: auto;
 }
 
 .social-icon {
@@ -343,4 +350,75 @@ a:hover {
 
 .social-icon svg {
     display: block;
+}
+
+.social-icon .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.4rem 0.2rem;
+    font-family: "Courier New", "Courier", monospace;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: transparent;
+    border: none !important;
+    border-bottom: 1px dashed rgba(128, 128, 128, 0.45) !important;
+    border-radius: 0;
+    margin-bottom: 1.75rem;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.search-input::placeholder {
+    color: var(--muted);
+}
+
+.search-input:focus {
+    border-color: var(--accent) !important;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--muted);
+}
+
+.post-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(128, 128, 128, 0.2) !important;
+}
+
+.post-nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+    max-width: 48%;
+}
+
+.post-nav-right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.post-nav-arrow {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: "Courier New", "Courier", monospace;
+}
+
+.post-nav-title {
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+a.post-nav-title:hover {
+    color: var(--accent);
+    text-decoration: none;
 }

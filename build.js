@@ -119,6 +119,8 @@ function renderSinglePage(posts) {
   // Embed config data (without about)
   const configJson = JSON.stringify({
     tagline: config.tagline,
+    url: config.url,
+    repo: config.repo,
     social: config.social,
   });
 
@@ -127,6 +129,112 @@ function renderSinglePage(posts) {
     .replace("{{about}}", aboutJson)
     .replace("{{config}}", configJson)
     .replace(/\{\{tagline\}\}/g, config.tagline);
+}
+
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function generateFeeds(posts) {
+  const siteUrl = (config.url || "").replace(/\/+$/, "");
+  const title = config.title || "ssupawat";
+  const rendered = posts.map(renderPost);
+
+  // JSON Feed 1.1
+  const feed = {
+    version: "https://jsonfeed.org/version/1.1",
+    title,
+    home_page_url: siteUrl + "/",
+    feed_url: siteUrl + "/feed.json",
+    language: "en",
+    items: rendered.map((p) => ({
+      id: siteUrl + "/posts/" + p.slug + "/",
+      url: siteUrl + "/posts/" + p.slug + "/",
+      title: p.title,
+      date_published: p.date,
+      summary: p.description,
+      content_html: p.content,
+    })),
+  };
+  fs.writeFileSync(path.join(DIST_DIR, "feed.json"), JSON.stringify(feed, null, 2));
+
+  // Atom 1.0
+  const updated = rendered.length ? rendered[0].date : new Date().toISOString();
+  const atom = `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>${escapeXml(title)}</title>
+  <link href="${siteUrl}/"/>
+  <link rel="self" href="${siteUrl}/atom.xml"/>
+  <id>${siteUrl}/</id>
+  <updated>${updated}</updated>
+${rendered
+      .map(
+        (p) => `  <entry>
+    <title>${escapeXml(p.title)}</title>
+    <id>${siteUrl}/posts/${p.slug}/</id>
+    <link href="${siteUrl}/posts/${p.slug}/"/>
+    <updated>${p.date}</updated>
+    <summary>${escapeXml(p.description)}</summary>
+    <content type="html">${escapeXml(p.content)}</content>
+  </entry>`,
+      )
+      .join("\n")}
+</feed>`;
+  fs.writeFileSync(path.join(DIST_DIR, "atom.xml"), atom);
+
+  // Sitemap
+  const urls = [siteUrl + "/"].concat(
+    rendered.map((p) => siteUrl + "/posts/" + p.slug + "/"),
+  );
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((u) => `  <url><loc>${escapeXml(u)}</loc></url>`).join("\n")}
+</urlset>`;
+  fs.writeFileSync(path.join(DIST_DIR, "sitemap.xml"), sitemap);
+
+  console.log("  Generated feed.json, atom.xml, sitemap.xml");
+}
+
+function generatePostPages(posts) {
+  const siteUrl = (config.url || "").replace(/\/+$/, "");
+  const title = config.title || "ssupawat";
+  const rendered = posts.map(renderPost);
+
+  const postsDir = path.join(DIST_DIR, "posts");
+  fs.mkdirSync(postsDir, { recursive: true });
+
+  rendered.forEach((p) => {
+    const slugDir = path.join(postsDir, p.slug);
+    fs.mkdirSync(slugDir, { recursive: true });
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeXml(p.title)} — ${escapeXml(title)}</title>
+<meta name="description" content="${escapeXml(p.description)}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${escapeXml(p.title)}">
+<meta property="og:description" content="${escapeXml(p.description)}">
+<meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
+<meta name="twitter:card" content="summary">
+<meta http-equiv="refresh" content="0;url=${siteUrl}/#/${p.slug}">
+</head>
+<body>
+<p><a href="${siteUrl}/#/${p.slug}">View post</a></p>
+</body>
+</html>`;
+
+    fs.writeFileSync(path.join(slugDir, "index.html"), html);
+  });
+
+  console.log(`  Generated ${rendered.length} post pages`);
 }
 
 function copyAssets() {
@@ -179,6 +287,9 @@ function build() {
   const indexHtml = renderSinglePage(posts);
   fs.writeFileSync(path.join(DIST_DIR, "index.html"), indexHtml);
   console.log("  Generated index.html");
+
+  generateFeeds(posts);
+  generatePostPages(posts);
 
   copyAssets();
   console.log("  Copied assets");

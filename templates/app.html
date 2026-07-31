@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Blog Name</title>
+        <title>ssupawat</title>
         <meta name="description" content="{{tagline}}" />
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Blog Name" />
+        <meta property="og:title" content="ssupawat" />
         <meta property="og:description" content="{{tagline}}" />
         <meta property="og:url" content="https://ssupawat.github.io/blog/" />
 
@@ -17,79 +17,23 @@
 
         <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
         <link rel="stylesheet" href="assets/style.css" />
-    </head>
+        <link rel="alternate" type="application/atom+xml" title="ssupawat" href="atom.xml" />
+        <link rel="alternate" type="application/json" title="ssupawat" href="feed.json" />
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0" />
+</head>
     <body>
         <main class="container">
             <nav>
-                <a href="#/" class="logo">
-                    <span class="logo-slash">/</span>
-                    <span class="logo-text">Blog</span>
-                </a>
+                <a href="#/" class="logo" aria-label="Home"><span class="material-symbols-outlined">palette</span>  <span class="logo-text">art</span></a>
                 <div class="menu">
-                    <a href="#/about" class="menu-icon" aria-label="About me">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path
-                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                            ></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
+                    <a href="#/about" class="menu-icon" aria-label="About me"><span class="material-symbols-outlined">person</span>
                     </a>
                     <button
                         class="menu-icon"
                         id="theme-toggle"
                         aria-label="Toggle dark mode"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line
-                                x1="4.22"
-                                y1="4.22"
-                                x2="5.64"
-                                y2="5.64"
-                            ></line>
-                            <line
-                                x1="18.36"
-                                y1="18.36"
-                                x2="19.78"
-                                y2="19.78"
-                            ></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line
-                                x1="4.22"
-                                y1="19.78"
-                                x2="5.64"
-                                y2="18.36"
-                            ></line>
-                            <line
-                                x1="18.36"
-                                y1="5.64"
-                                x2="19.78"
-                                y2="4.22"
-                            ></line>
-                        </svg>
+                    ><span class="material-symbols-outlined" id="theme-icon">light_mode</span>
                     </button>
                 </div>
             </nav>
@@ -104,22 +48,8 @@
                         rel="noopener noreferrer"
                         class="social-icon"
                         aria-label="GitHub"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path
-                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-                            ></path>
-                        </svg>
+                        data-social="github"
+                    ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                     </a>
                     <a
                         href=""
@@ -127,22 +57,26 @@
                         rel="noopener noreferrer"
                         class="social-icon"
                         aria-label="Facebook"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <path
-                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
-                            ></path>
-                        </svg>
+                        data-social="facebook"
+                    ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a
+                        href=""
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-icon"
+                        aria-label="RSS feed"
+                        data-social="rss"
+                    ><span class="material-symbols-outlined">rss_feed</span>
+                    </a>
+                    <a
+                        href=""
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-icon"
+                        aria-label="View source"
+                        data-social="source"
+                    ><span class="material-symbols-outlined">terminal</span>
                     </a>
                 </div>
             </footer>
@@ -168,12 +102,16 @@
                     html.style.setProperty("--accent", "#66b2ff");
                     html.style.setProperty("--muted", "#999999");
                     localStorage.setItem("theme", "dark");
+                    const ti = document.getElementById("theme-icon");
+                    if (ti) ti.textContent = "dark_mode";
                 } else {
                     html.style.setProperty("--bg", "#f9f9f9");
                     html.style.setProperty("--text", "#2d2d2d");
                     html.style.setProperty("--accent", "#0066cc");
                     html.style.setProperty("--muted", "#666666");
                     localStorage.setItem("theme", "light");
+                    const ti = document.getElementById("theme-icon");
+                    if (ti) ti.textContent = "light_mode";
                 }
             }
 
@@ -196,45 +134,84 @@
             });
 
             // Set social links from config
-            const footerLinks = document.querySelectorAll("#footer .social-links a");
-            if (footerLinks[0]) footerLinks[0].href = config.social.github;
-            if (footerLinks[1]) footerLinks[1].href = config.social.facebook;
+            function setSocial(key, href) {
+                const link = document.querySelector(
+                    `#footer .social-links a[data-social="${key}"]`,
+                );
+                if (link && href) link.href = href;
+            }
+            setSocial("github", config.social.github);
+            setSocial("facebook", config.social.facebook);
+            setSocial("rss", config.url ? config.url + "/atom.xml" : "");
+            setSocial("source", config.repo || "");
 
             // Router
             const app = document.getElementById("app");
 
-            function renderHome() {
-                if (posts.length === 0) {
-                    app.innerHTML = `
-                        <p class="tagline">${config.tagline}</p>
-                        <div class="home-wrapper">
-                            <p style="text-align: center; color: var(--muted);">No posts yet. Check back soon!</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                const postList = posts
+            function postListHtml(list) {
+                return list
                     .map((post) => {
-                        return `    <li class="post-list-item">
+                        return `<li class="post-list-item">
                             <div>
-                                <a href="#/${post.slug}">${post.title}</a>
+                                <a href="#/${post.slug}" class="post-title">${post.title}</a>
                                 <div class="post-description">${post.description}</div>
                             </div>
                             <div class="post-meta">${post.date}</div>
                         </li>`;
                     })
-                    .join("\n");
+                    .join("");
+            }
+
+            function renderHome(filter) {
+                const query = (filter || "").trim().toLowerCase();
+
+                if (posts.length === 0) {
+                    app.innerHTML = `
+                        <p class="tagline">${config.tagline}</p>
+                        <div class="home-wrapper">
+                            <p class="empty-state">No posts yet. Check back soon!</p>
+                        </div>
+                    `;
+                    return;
+                }
 
                 app.innerHTML = `
                     <p class="tagline">${config.tagline}</p>
                     <div class="home-wrapper">
-                      <h2>Posts</h2>
-                      <ul class="post-list">
-                          ${postList}
-                      </ul>
+                        <input
+                            type="search"
+                            id="search-input"
+                            class="search-input"
+                            placeholder="Search posts..."
+                            aria-label="Search posts"
+                            autocomplete="off"
+                        />
+                        <h2>Posts</h2>
+                        <ul class="post-list" id="post-list"></ul>
+                        <p class="empty-state" id="search-empty" hidden>No posts match your search.</p>
                     </div>
                 `;
+
+                const list = document.getElementById("post-list");
+                const emptyEl = document.getElementById("search-empty");
+                const searchInput = document.getElementById("search-input");
+
+                function applyQuery(value) {
+                    const q = value.trim().toLowerCase();
+                    const filtered = q
+                        ? posts.filter((p) =>
+                              `${p.title} ${p.description} ${p.content.replace(/<[^>]+>/g, " ")}`
+                                  .toLowerCase()
+                                  .includes(q),
+                          )
+                        : posts;
+                    list.innerHTML = postListHtml(filtered);
+                    emptyEl.hidden = !(q && filtered.length === 0);
+                }
+
+                searchInput.addEventListener("input", (e) => applyQuery(e.target.value));
+                applyQuery(filter || "");
+                if (query) searchInput.focus();
             }
 
             function renderPost(slug) {
@@ -254,6 +231,31 @@
                     return;
                 }
 
+                const idx = posts.findIndex((p) => p.slug === slug);
+                const newer = idx > 0 ? posts[idx - 1] : null;
+                const older = idx < posts.length - 1 ? posts[idx + 1] : null;
+
+                const navHtml =
+                    newer || older
+                        ? `
+                        <nav class="post-nav">
+                            <div class="post-nav-item">
+                                ${
+                                    newer
+                                        ? `<span class="post-nav-arrow">← Newer</span><a href="#/${newer.slug}" class="post-nav-title">${newer.title}</a>`
+                                        : ""
+                                }
+                            </div>
+                            <div class="post-nav-item post-nav-right">
+                                ${
+                                    older
+                                        ? `<a href="#/${older.slug}" class="post-nav-title">${older.title}</a><span class="post-nav-arrow">Older →</span>`
+                                        : ""
+                                }
+                            </div>
+                        </nav>`
+                        : "";
+
                 app.innerHTML = `
                     <article>
                         <header class="post-header">
@@ -264,6 +266,7 @@
                             </div>
                         </header>
                         <div class="content">${post.content}</div>
+                        ${navHtml}
                     </article>
                 `;
             }
@@ -292,9 +295,9 @@
                 // Update page title
                 const post = posts.find((p) => hash === "/" + p.slug);
                 if (post) {
-                    document.title = `${post.title} - Blog Name`;
+                    document.title = `${post.title} - ssupawat`;
                 } else if (hash === "/") {
-                    document.title = `Blog Name`;
+                    document.title = `ssupawat`;
                 } else if (hash === "/about") {
                     document.title = `About Me`;
                 }

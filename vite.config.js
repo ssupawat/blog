@@ -85,17 +85,18 @@ export default defineConfig({
           let reqPath = urlPath === "/" ? "/index.html" : urlPath;
           let distPath = path.join(process.cwd(), "dist", reqPath);
 
-          // Always serve index.html for SPA/hash routing
-          if (!path.extname(reqPath)) {
-            distPath = path.join(process.cwd(), "dist", "index.html");
-          }
-
-          // If it's a directory, try index.html
+          // If it's a directory, try index.html inside it
           if (
             fs.existsSync(distPath) &&
             fs.statSync(distPath).isDirectory()
           ) {
             distPath = path.join(distPath, "index.html");
+          } else if (
+            // Fall back to SPA index.html for paths without an extension
+            !path.extname(reqPath) &&
+            !fs.existsSync(distPath)
+          ) {
+            distPath = path.join(process.cwd(), "dist", "index.html");
           }
 
           if (fs.existsSync(distPath) && fs.statSync(distPath).isFile()) {
