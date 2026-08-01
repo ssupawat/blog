@@ -1,62 +1,74 @@
-# Simple Static Blog
+# art.
 
-A simple static blog built with vanilla JavaScript, using hash-based routing for a single-page application approach.
+Personal site — writing, projects, demos. Built with vanilla JavaScript, no framework.
 
 ## Features
 
-- **Simple content creation**: Write blog posts in Markdown with YAML frontmatter
-- **Single-page app**: Hash-based client-side routing (`#/post-slug`)
-- **Fast and lightweight**: No JavaScript framework overhead
-- **Live reload**: Development server with hot reload
-- **Dark mode support**: Automatic dark mode based on system preference
-- **No server required**: Generated `index.html` works completely standalone
+- **Markdown posts** with YAML frontmatter in `content/`
+- **Hash-based SPA** — single `index.html`, no server routing
+- **Client-side search** — filters posts by title, description, and body on each keystroke
+- **Prev/next navigation** between posts
+- **Share button** — copies canonical URL or opens native share sheet
+- **Algorithmic cover art** — Mondrian-style recursive subdivision, unique per post
+- **Per-post OG pages** — static HTML at `/posts/<slug>/` for social previews
+- **JSON Feed, Atom, Sitemap** — generated at build time
+- **Dark mode** — respects system preference, toggled from nav, persisted
+- **Thai language support** — Noto Sans Thai, Unicode-aware slugifier
+- **Two-font system** — Inter for prose, JetBrains Mono for metadata
+- **Material Symbols** for icons, with SVG brand logos (GitHub, Facebook)
+- **Live reload** in dev via Vite
+
+## Stack
+
+```
+content/          → Markdown posts with frontmatter
+templates/        → app.html (SPA shell)
+assets/           → style.css, favicon, OG image
+build.js          → static generator (Node, no dependencies beyond marked)
+blog.config.js    → single config file for site, author, social, theme, fonts
+vite.config.js    → dev server with live reload
+```
+
+`build.js` reads content, renders Markdown with `marked`, generates `dist/index.html` (embedded posts JSON + SPA), per-post OG pages, feeds, sitemap, and rasterizes the OG image via Chrome headless.
 
 ## Getting Started
 
-### Local Development
-
-1. Install dependencies:
 ```bash
 npm install
+npm run dev        # → http://localhost:3000
+npm run build      # → dist/
 ```
 
-2. Start the development server:
-```bash
-npm run dev
-```
+Changes to `content/`, `templates/`, `assets/`, or `blog.config.js` trigger auto-rebuild and reload.
 
-3. Open http://localhost:3000 in your browser
+## Creating Content
 
-The dev server will automatically rebuild and reload when you make changes to:
-- `content/` - Blog posts
-- `about.md` - About page
-- `templates/` - HTML templates
-- `assets/` - CSS files
-- `blog.config.js` - Site configuration
-
-### Creating Content
-
-**Blog Posts:** Create files in `content/` with frontmatter:
 ```markdown
 ---
 title: "Your Post Title"
 description: "Brief summary"
-date: "2026-01-14"
+date: "2025-08-01"
+tags:
+  - tag1
+  - tag2
 ---
 
-Your content here...
+Your content here. Markdown, code blocks, whatever.
 ```
 
-**About Page:** Edit `about.md` in the root directory.
+## Configuration
 
-**Configuration:** Edit `blog.config.js` to update:
-- Tagline
-- Social media links
+All in `blog.config.js`:
 
-### Build for Production
+- `site` — name, tagline, URL, repo
+- `author` — name, about text
+- `social` — GitHub, Facebook links
+- `theme` — Ink/Paper/Signal/Slate hex values
+- `fonts` — prose and meta font stacks
+- `og` — OG image seed and dimensions
+- `nav` — navigation links
+- `footer` — social footer icons
 
-```bash
-npm run build
-```
+## Deploy
 
-This generates `dist/index.html` - a single self-contained file ready to deploy.
+GitHub Actions builds and deploys to Pages on every push to `main`.
