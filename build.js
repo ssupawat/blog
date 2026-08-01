@@ -17,19 +17,31 @@ function parseFrontmatter(content) {
   const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
 
-  if (!match) {
-    return null;
-  }
+  if (!match) return null;
 
   const frontmatter = {};
   const lines = match[1].split("\n");
 
-  for (const line of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     const colonIndex = line.indexOf(":");
     if (colonIndex === -1) continue;
 
     const key = line.slice(0, colonIndex).trim();
     let value = line.slice(colonIndex + 1).trim();
+
+    // YAML-style array: lines starting with "  - " after an empty-valued key
+    if (value === "" || value === "[]") {
+      const arr = [];
+      while (i + 1 < lines.length && lines[i + 1].match(/^\s+-\s/)) {
+        i++;
+        let item = lines[i].replace(/^\s+-\s/, "").trim();
+        if (item.startsWith('"') && item.endsWith('"')) item = item.slice(1, -1);
+        arr.push(item);
+      }
+      if (arr.length) frontmatter[key] = arr;
+      continue;
+    }
 
     if (value.startsWith('"') && value.endsWith('"')) {
       value = value.slice(1, -1);
@@ -38,10 +50,7 @@ function parseFrontmatter(content) {
     frontmatter[key] = value;
   }
 
-  return {
-    ...frontmatter,
-    content: match[2].trim(),
-  };
+  return { ...frontmatter, content: match[2].trim() };
 }
 
 function slugify(filename) {
@@ -96,6 +105,7 @@ function renderPost(post) {
     title: post.title,
     date: post.date,
     description: post.description,
+    tags: post.tags || [],
     content: marked(post.content),
   };
 }

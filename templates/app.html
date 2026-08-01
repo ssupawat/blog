@@ -266,6 +266,7 @@
                                 <span class="date">${post.date}</span>
                                 <span class="description">${post.description}</span>
                             </div>
+                            <span class="post-tags">${post.tags && post.tags.length ? post.tags.map(t => `<a href="#/tag/${t}" class="tag">${t}</a>`).join("") : ""}</span>
                         </header>
                         <button class="share-post" id="share-btn" title="Copy share link"><span class="material-symbols-outlined">link</span></button>
                         <div class="content">${post.content}</div>
@@ -291,12 +292,53 @@
                 }
             }
 
+            function renderTags() {
+                const allTags = {};
+                posts.forEach((p) => {
+                    (p.tags || []).forEach((t) => {
+                        allTags[t] = (allTags[t] || 0) + 1;
+                    });
+                });
+                const entries = Object.entries(allTags).sort((a, b) => b[1] - a[1]);
+                app.innerHTML = `
+                    <p class="tagline">tags</p>
+                    <div class="home-wrapper">
+                        <ul class="tag-list">
+                            ${entries
+                                .map(
+                                    ([t, c]) =>
+                                        `<li><a href="#/tag/${t}" class="tag">${t}</a> <span class="tag-count">${c}</span></li>`,
+                                )
+                                .join("")}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            function renderTaggedPosts(tag) {
+                const filtered = posts.filter((p) => (p.tags || []).includes(tag));
+                app.innerHTML = `
+                    <p class="tagline">#${tag}</p>
+                    <div class="home-wrapper">
+                        <ul class="post-list">
+                            ${postListHtml(filtered)}
+                        </ul>
+                        ${filtered.length === 0 ? '<p class="empty-state">No posts with this tag.</p>' : ""}
+                    </div>
+                `;
+            }
+
             function router() {
                 const hash = window.location.hash.slice(1) || "/";
 
                 if (hash === "/") {
                     renderHome();
-                } else if (hash === "/about") {
+                } else if (hash === "/tags") {
+                renderTags();
+            } else if (hash.startsWith("/tag/")) {
+                const tag = hash.slice(5);
+                renderTaggedPosts(tag);
+            } else if (hash === "/about") {
                     app.innerHTML = `
                         <article>
                             <header class="post-header">

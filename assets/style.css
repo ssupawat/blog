@@ -436,3 +436,41 @@ a.post-nav-title:hover {
     color: var(--accent);
     text-decoration: none;
 }
+
+.tag {
+    display: inline-block;
+    font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.15rem 0.5rem;
+    margin-right: 0.4rem;
+    border-radius: 3px;
+    background: rgba(128, 128, 128, 0.1);
+}
+
+.tag:hover {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.post-tags {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.tag-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tag-list li {
+    margin: 0.5rem 0;
+}
+
+.tag-count {
+    font-family: "JetBrains Mono", "SF Mono", "Monaco", monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
