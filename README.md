@@ -4,7 +4,8 @@ Personal site — writing, projects, demos. Built with vanilla JavaScript, no fr
 
 ## Features
 
-- **Markdown posts** with YAML frontmatter in `content/`
+- **Markdown posts** with YAML frontmatter — title, description, date, tags
+- **Tags** — per-post tags with YAML array frontmatter, shown on posts and in the post list
 - **Hash-based SPA** — single `index.html`, no server routing
 - **Client-side search** — filters posts by title, description, and body on each keystroke
 - **Prev/next navigation** between posts
@@ -25,7 +26,7 @@ content/          → Markdown posts with frontmatter
 templates/        → app.html (SPA shell)
 assets/           → style.css, favicon, OG image
 build.js          → static generator (Node, no dependencies beyond marked)
-blog.config.js    → single config file for site, author, social, theme, fonts
+blog.config.js    → single config file for site, social, OG
 vite.config.js    → dev server with live reload
 ```
 
@@ -61,13 +62,8 @@ Your content here. Markdown, code blocks, whatever.
 All in `blog.config.js`:
 
 - `site` — name, tagline, URL, repo
-- `author` — name, about text
 - `social` — GitHub, Facebook links
-- `theme` — Ink/Paper/Signal/Slate hex values
-- `fonts` — prose and meta font stacks
 - `og` — OG image seed and dimensions
-- `nav` — navigation links
-- `footer` — social footer icons
 
 ## Deploy
 
