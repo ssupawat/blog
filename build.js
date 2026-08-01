@@ -307,7 +307,7 @@ function generatePostPages(posts) {
 <meta property="og:type" content="article">
 <meta property="og:title" content="${escapeXml(p.title)}">
 <meta property="og:description" content="${escapeXml(p.description)}">
-<meta property="og:image" content="${siteUrl}/posts/${p.slug}/cover.svg">
+<meta property="og:image" content="${siteUrl}/assets/og-image.png">
 <meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
 <meta name="twitter:card" content="summary_large_image">
 <style>
