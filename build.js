@@ -94,7 +94,7 @@ function scanContent() {
   return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-function loadTemplate(name = "layout.html") {
+function loadTemplate(name) {
   const templatePath = path.join(TEMPLATE_DIR, name);
   return fs.readFileSync(templatePath, "utf-8");
 }
@@ -131,7 +131,6 @@ function renderSinglePage(posts) {
   const configJson = JSON.stringify({
     site: config.site,
     social: config.social,
-    footer: config.footer,
   });
 
   return template

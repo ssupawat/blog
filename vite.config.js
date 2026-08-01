@@ -33,7 +33,6 @@ export default defineConfig({
       name: "custom-build-and-watch",
       buildStart() {
         // Only run build in development mode
-        if (process.env.NODE_ENV !== "production") {
           runBuild();
         }
       },

@@ -293,29 +293,6 @@
                 }
             }
 
-            function renderTags() {
-                const allTags = {};
-                posts.forEach((p) => {
-                    (p.tags || []).forEach((t) => {
-                        allTags[t] = (allTags[t] || 0) + 1;
-                    });
-                });
-                const entries = Object.entries(allTags).sort((a, b) => b[1] - a[1]);
-                app.innerHTML = `
-                    <p class="tagline">tags</p>
-                    <div class="home-wrapper">
-                        <ul class="tag-list">
-                            ${entries
-                                .map(
-                                    ([t, c]) =>
-                                        `<li><a href="#/tag/${t}" class="tag">${t}</a> <span class="tag-count">${c}</span></li>`,
-                                )
-                                .join("")}
-                        </ul>
-                    </div>
-                `;
-            }
-
             function renderTaggedPosts(tag) {
                 const filtered = posts.filter((p) => (p.tags || []).includes(tag));
                 app.innerHTML = `
@@ -334,12 +311,7 @@
 
                 if (hash === "/") {
                     renderHome();
-                } else if (hash === "/tags") {
-                renderTags();
-            } else if (hash.startsWith("/tag/")) {
-                const tag = hash.slice(5);
-                renderTaggedPosts(tag);
-            } else if (hash === "/about") {
+                } else if (hash === "/about") {
                     app.innerHTML = `
                         <article>
                             <header class="post-header">
