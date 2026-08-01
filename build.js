@@ -318,6 +318,7 @@ function generatePostPages(posts) {
 <meta property="og:image" content="${siteUrl}/assets/og-image.png">
 <meta property="og:url" content="${siteUrl}/posts/${p.slug}/">
 <meta name="twitter:card" content="summary_large_image">
+<script>location.replace("${siteUrl}/#/${p.slug}");</script>
 <style>
 body{font-family:"Inter",system-ui,-apple-system,sans-serif;max-width:700px;margin:3rem auto;padding:0 1.5rem;background:#F4F5F3;color:#151A21;line-height:1.7}
 h1{font-size:1.3rem;font-weight:600}
@@ -329,10 +330,7 @@ a{color:#2F6F6A}
 </style>
 </head>
 <body>
-<h1>${escapeXml(p.title)}</h1>
-<p class="meta">${escapeXml(p.date)}</p>
 <div class="cover">${coverSvg}</div>
-<p>${escapeXml(p.description)}</p>
 <p><a href="${siteUrl}/#/${p.slug}">Read more →</a></p>
 </body>
 </html>`;
