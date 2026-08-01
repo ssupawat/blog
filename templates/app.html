@@ -157,6 +157,7 @@
                             <div>
                                 <a href="#/${post.slug}" class="post-title">${post.title}</a>
                                 <div class="post-description">${post.description}</div>
+                                <div class="post-tags">${(post.tags || []).map(t => `<a href="#/tag/${t}" class="tag">${t}</a>`).join("")}</div>
                             </div>
                             <div class="post-meta">${post.date}</div>
                         </li>`;
