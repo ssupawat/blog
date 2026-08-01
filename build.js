@@ -119,17 +119,16 @@ function renderSinglePage(posts) {
 
   // Embed config data (without about)
   const configJson = JSON.stringify({
-    tagline: config.tagline,
-    url: config.url,
-    repo: config.repo,
+    site: config.site,
     social: config.social,
+    footer: config.footer,
   });
 
   return template
     .replace("{{posts}}", postsJson)
     .replace("{{about}}", aboutJson)
     .replace("{{config}}", configJson)
-    .replace(/\{\{tagline\}\}/g, config.tagline)
+    .replace(/\{\{tagline\}\}/g, config.site.tagline)
     
 }
 
@@ -143,8 +142,8 @@ function escapeXml(str) {
 }
 
 function generateFeeds(posts) {
-  const siteUrl = (config.url || "").replace(/\/+$/, "");
-  const title = config.title || "ssupawat";
+  const siteUrl = (config.site.url || "").replace(/\/+$/, "");
+  const title = config.site.name;
   const rendered = posts.map(renderPost);
 
   // JSON Feed 1.1
@@ -278,8 +277,8 @@ function generateCover(seed) {
 }
 
 function generatePostPages(posts) {
-  const siteUrl = (config.url || "").replace(/\/+$/, "");
-  const title = config.title || "ssupawat";
+  const siteUrl = (config.site.url || "").replace(/\/+$/, "");
+  const title = config.site.name;
   const rendered = posts.map(renderPost);
 
   const postsDir = path.join(DIST_DIR, "posts");
